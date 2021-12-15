@@ -5,7 +5,7 @@ import { FaKey , FaAt  } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function Login({setToken , token , setUserId , setName}) {
+export default function Login({setToken , token , setUserId , setName , setType}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -20,6 +20,16 @@ export default function Login({setToken , token , setUserId , setName}) {
     const toast = useToast()
 
     const eventClickLogin = async () => {
+        if (email === "" || password === "") {
+            toast({
+                title: 'Error',
+                description: "Please fill in data !",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              })
+              return
+        }
         try {
             const response = await axios.post("http://localhost:5000/login" , 
         {
@@ -28,9 +38,14 @@ export default function Login({setToken , token , setUserId , setName}) {
         })
             setToken(response.data.token)
             setUserId(response.data.userId)
-            // setName(email)
+            setName(response.data.username)
+            setType(response.data.type)
+
             localStorage.setItem("token",JSON.stringify(response.data.token))
             localStorage.setItem("userId",JSON.stringify(response.data.userId))
+            localStorage.setItem("username",JSON.stringify(response.data.username))
+            localStorage.setItem("type",JSON.stringify(response.data.type))
+
             hestory.push("/")
             toast({title: 'Login.',
             description: "You are logged in successfully.",
@@ -77,7 +92,6 @@ export default function Login({setToken , token , setUserId , setName}) {
             <Button onClick={()=>{eventClickLogin()}} marginTop={"5px"} >LOGIN</Button>
 
             </Center>
-            
         </Flex>
     )
 }

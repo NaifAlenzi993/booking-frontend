@@ -1,0 +1,76 @@
+body{
+    width: 100%;
+    height: 1100px;
+}
+
+#form-addhouse { 
+    width: 500px;
+    margin: auto;
+}
+
+#img-house{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: relative;
+cursor: pointer;
+}
+
+#icon-fav {
+    position: absolute;
+    font-size: 25px;
+    top: 10px;
+    left: 10px;
+}
+
+#icon-fav:hover {
+    position: absolute;
+    font-size: 30px;
+    top: 8px;
+    left: 8px;
+}
+
+#img-responsive{
+    object-fit: cover;
+    width: 450px;
+    height: 300px;
+}
+
+
+#container-houses{
+    width: 70%;
+    display: grid;
+    grid-template-columns: 45% 45% ;
+    margin: auto;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#box-houses {
+    width: 100%;
+    margin: auto;
+    margin-top: 15px;
+    position: relative;
+}
+
+#stars-rate {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+}
+
+
+@media screen and (max-width: 1200px) {
+    #container-houses{
+        width: 100%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 90% ;
+        justify-content: center;
+        align-items:center;
+        margin-top: 10px;
+    }
+  }

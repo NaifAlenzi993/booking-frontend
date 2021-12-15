@@ -16,7 +16,16 @@ export default function Signup() {
     const toast = useToast()
 
     const clickSignup = async () => {
-
+        if (inputUsername === "" || inputEmail === "" || inputPassword === "") {
+            toast({
+                title: 'Error',
+                description: "Please fill in data !",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+              })
+              return
+        }
         try {
             const response = await axios.post("http://localhost:5000/signUp" , {
                 name: inputUsername ,

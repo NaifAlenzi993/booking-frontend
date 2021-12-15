@@ -1,13 +1,16 @@
-import "./App.css";
 import React, { useState, useEffect } from "react";
 import { Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Houses from "./components/Houses";
+import AddHouse from "./components/AddHouse";
 import Home from "./components/Home";
-import axios from "axios";
+import HouseSelect from "./components/HouseSelect"
+import Fav from "./components/Fav";
 import "bootstrap/dist/css/bootstrap.css"
-import { ChakraProvider , extendTheme, theme , Spinner , Center } from "@chakra-ui/react";
+import { ChakraProvider , extendTheme } from "@chakra-ui/react";
+
+import "./style.css"
 
 import NavbarTop from "./components/Navbar";
 
@@ -15,13 +18,18 @@ function App() {
   const [token, setToken] = useState("")
   const [userId, setUserId] = useState("")
   const [name , setName] = useState("")
+  const [type, setType] = useState(2)
 
   useEffect(() => { 
     if (!token) {
         const mytoken = JSON.parse(localStorage.getItem("token"))
         const myuserId = JSON.parse(localStorage.getItem("userId"))
+        const username = JSON.parse(localStorage.getItem("username"))
+        const userType = JSON.parse(localStorage.getItem("type"))
         setToken(mytoken)
         setUserId(myuserId)
+        setName(username)
+        setType(userType)
     }
 }, [])
 
@@ -34,13 +42,37 @@ useSystemColorMode: false})
 
   return (
     <ChakraProvider theme={extendTheme({ config })}>
-      <NavbarTop token={token} setToken={setToken} userId={userId} setName={setName} config={config} setConfig={setConfig}/>
+      <NavbarTop token={token} setToken={setToken} userId={userId} setName={setName} config={config} setConfig={setConfig} name={name} type={type} />
+
+      <Route
+        exact
+        path="/fav"
+        render={() => {
+          return <Fav token={token} setToken={setToken} userId={userId} />;
+        }}
+      />
 
       <Route
         exact
         path="/"
         render={() => {
           return <Home token={token} setToken={setToken} userId={userId} />;
+        }}
+      />
+
+      <Route
+        exact
+        path="/house/:id"
+        render={() => {
+          return <HouseSelect token={token} setToken={setToken} userId={userId} />;
+        }}
+      />
+
+      <Route
+        exact
+        path="/addhouse"
+        render={() => {
+          return <AddHouse token={token} setToken={setToken} userId={userId} />;
         }}
       />
 
@@ -61,6 +93,7 @@ useSystemColorMode: false})
             setToken={setToken}
             setName={setName}
             setUserId={setUserId}
+            setType={setType} 
           />
         )}
       />

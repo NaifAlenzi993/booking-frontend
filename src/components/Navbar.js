@@ -1,13 +1,13 @@
 import React , {useState , useEffect} from "react";
 import { Link } from "react-router-dom";
 import {Navbar , Nav  } from 'react-bootstrap'
-import {  Button , Center , extendTheme , Flex , MenuGroup, MenuItem , MenuList , Menu , MenuButton , MenuDivider ,useColorMode} from "@chakra-ui/react";
+import {  Button  , Tooltip  , MenuGroup, MenuItem , MenuList , Menu , MenuButton , MenuDivider ,useColorMode} from "@chakra-ui/react";
 import { useHistory } from 'react-router-dom';
 import { FaRegMoon } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function NavbarTop({token , setToken , setName , name , config , setConfig }) {
+export default function NavbarTop({token , setToken , setName , name , config , setConfig , type}) {
 
     const hestory = useHistory()
     const { colorMode, toggleColorMode } = useColorMode()
@@ -27,23 +27,23 @@ export default function NavbarTop({token , setToken , setName , name , config , 
 
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}>BOOKING</Button> </Nav.Link>
 
-                
-
                 <Nav.Link> <Menu>
                         <MenuButton as={Button} colorScheme='pink'>
-                            Profile
+                            My Account
                         </MenuButton>
                         <MenuList>
-                            <MenuGroup color={"black"} title='Profile' >
-                                <MenuItem color={"black"}>My Account</MenuItem>
-                                <MenuItem color={"black"}>Payments</MenuItem>
+                            <MenuGroup fontSize={"15px"} color={"black"} title={`Login : ${name}`} >
+                                <MenuItem color={"black"}>Setting</MenuItem>
+                                <MenuItem color={"black"}>Profile</MenuItem>
+                                {type === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""}
+                                {type === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""}
                             </MenuGroup>
-                         {/* <MenuDivider /> */}
+                         <MenuDivider />
+                         <MenuItem onClick={()=>{logout()}} color={"red"}>Logout</MenuItem>
                          </MenuList>
                         </Menu>
                         </Nav.Link>
 
-                <Nav.Link > <Button colorScheme="red" onClick={()=>{logout()}}>LOGOUT</Button> </Nav.Link>
           </>
       }else{
           return <>
@@ -69,13 +69,18 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                     <Navbar.Collapse className="justify-content-end">
                     <Nav>
                     <Nav.Link> 
-                        <FaRegMoon fontSize={"25px"} onClick={()=>{toggleColorMode()}}></FaRegMoon>
+
+                  
+                        
+                    
+                        
                     </Nav.Link>
                     {checkToken()}
                     </Nav>
 
                     </Navbar.Collapse>
- {/* {checkToken()} */}
+                        {/* {checkToken()} */}
+                    <FaRegMoon fontSize={"25px"} onClick={()=>{toggleColorMode()}}></FaRegMoon>
                 </Navbar>
          
       
