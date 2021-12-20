@@ -7,7 +7,7 @@ import { FaRegMoon } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function NavbarTop({token , setToken , setName , name , config , setConfig , type}) {
+export default function NavbarTop({token , setToken , setName , name , config , setConfig , role}) {
 
     const hestory = useHistory()
     const { colorMode, toggleColorMode } = useColorMode()
@@ -27,7 +27,9 @@ export default function NavbarTop({token , setToken , setName , name , config , 
 
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}>BOOKING</Button> </Nav.Link>
 
-                <Nav.Link> <Menu>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/fav")}}>FAV</Button> </Nav.Link>
+
+                    <Nav.Link> <Menu>
                         <MenuButton as={Button} colorScheme='pink'>
                             My Account
                         </MenuButton>
@@ -35,19 +37,20 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                             <MenuGroup fontSize={"15px"} color={"black"} title={`Login : ${name}`} >
                                 <MenuItem color={"black"}>Setting</MenuItem>
                                 <MenuItem color={"black"}>Profile</MenuItem>
-                                {type === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""}
-                                {type === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""}
+                                {role === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""}
+                                {role === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""}
                             </MenuGroup>
                          <MenuDivider />
                          <MenuItem onClick={()=>{logout()}} color={"red"}>Logout</MenuItem>
                          </MenuList>
                         </Menu>
-                        </Nav.Link>
+                    </Nav.Link>
 
           </>
       }else{
           return <>
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>HOME</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>HOUSES</Button> </Nav.Link>
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/login")}}>LOGIN</Button> </Nav.Link>
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/signup")}}>Create Account</Button> </Nav.Link>
           </>

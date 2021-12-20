@@ -1,0 +1,26 @@
+#booking-box{
+    width: 50%;
+    margin: auto;
+    display: flex;
+    padding: 5px;
+    border: 1px solid black;
+    margin-top: 2px;
+}
+
+#booking-img{
+    object-fit: cover;
+    width: 200px;
+    height: 150px;
+}
+
+#booking-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#booking-info h3{
+    margin-bottom: 2px;
+}
+

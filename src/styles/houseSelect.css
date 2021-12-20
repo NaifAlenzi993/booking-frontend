@@ -1,0 +1,67 @@
+.containerHouseSelect{
+    width: 85%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 400px auto;
+}
+
+.containerHouseSelect *{
+   margin:  5px;
+}
+
+#imgHouseSelect{
+    object-fit: cover;
+    width: 300px;
+    height: 200px;
+}
+
+#houseSelect{
+    display: grid;
+    grid-template-columns: auto ;
+    padding: 10px;
+}
+
+#gridinfo39824{
+   display: flex;
+   justify-content: flex-end;
+}
+
+#infoHouse847938{ 
+    display: flex;
+    justify-content: center;
+}
+
+
+
+#toBooking{
+    
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 30px;
+}
+
+#toBooking input{
+    text-align: center;
+}
+
+#toBooking span{
+    width: 100%;
+}
+
+#comments-div{
+    
+}
+
+
+
+
+#bookingBtn{
+    margin: auto;
+    padding: 5px;
+    background-color: rgb(55, 139, 55);
+    border: 1px solid black;
+    border-radius: 10px;
+}

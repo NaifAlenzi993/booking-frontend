@@ -5,7 +5,7 @@ import { FaKey , FaAt  } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function Login({setToken , token , setUserId , setName , setType}) {
+export default function Login({setToken , token , setUserId , setName , setRole}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -39,12 +39,12 @@ export default function Login({setToken , token , setUserId , setName , setType}
             setToken(response.data.token)
             setUserId(response.data.userId)
             setName(response.data.username)
-            setType(response.data.type)
+            setRole(response.data.role)
 
             localStorage.setItem("token",JSON.stringify(response.data.token))
             localStorage.setItem("userId",JSON.stringify(response.data.userId))
             localStorage.setItem("username",JSON.stringify(response.data.username))
-            localStorage.setItem("type",JSON.stringify(response.data.type))
+            localStorage.setItem("role",JSON.stringify(response.data.role))
 
             hestory.push("/")
             toast({title: 'Login.',
@@ -52,7 +52,8 @@ export default function Login({setToken , token , setUserId , setName , setType}
             status: 'success',
             duration: 3000,
             isClosable: true,})
-            console.log(response.data.token);
+            // console.log(response.data.token);
+
         } catch (error) {
             if (error.response.status === 404 || error.response.status === 403) {
                 console.log(error.response);
