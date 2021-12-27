@@ -5,11 +5,11 @@ import {Button} from "@chakra-ui/react";
 
 import "../styles/Booking.css"
 
-export default function Booking({token}) {
+export default function Booking({token , serverUrl}) {
     const [tickets, setTickets] = useState("")
     
     useEffect(() => {
-            axios.get("http://localhost:5000/booking/" , {headers: { authorization: `Bearer ${token}` }})
+            axios.get(serverUrl+"/booking/" , {headers: { authorization: `Bearer ${token}` }})
             .then(res => {
                 console.log(res.data);
                 setTickets(res.data)
@@ -24,15 +24,12 @@ export default function Booking({token}) {
     }
 
     const cancelBooking = (id) => {
-        axios.delete(`http://localhost:5000/booking/${id}`,
+        axios.delete(`${serverUrl}/booking/${id}`,
             {headers: { authorization: `Bearer ${token}` }}).then(res => {
                 setTickets(res.data);
             }).catch(err => {
                 console.log(err);
             })
-
-        
-       
     }
 
     return (
@@ -43,6 +40,7 @@ export default function Booking({token}) {
                         
                         <div id="booking-info">
                             <h3>{elem.house.name}</h3>
+                            <span>price : {elem.priceTotal} S.R</span>
                             <span>from : {elem.startDate}</span>
                             <span>to :{elem.expiryDate}</span>
                             <div>

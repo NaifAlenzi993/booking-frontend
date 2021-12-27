@@ -1,10 +1,11 @@
 import React , {useState , useEffect} from "react";
-import { Link } from "react-router-dom";
 import {Navbar , Nav  } from 'react-bootstrap'
 import {  Button  , Tooltip  , MenuGroup, MenuItem , MenuList , Menu , MenuButton , MenuDivider ,useColorMode} from "@chakra-ui/react";
 import { useHistory } from 'react-router-dom';
 import { FaRegMoon } from 'react-icons/fa';
 import axios from "axios";
+
+
 
 
 export default function NavbarTop({token , setToken , setName , name , config , setConfig , role}) {
@@ -21,13 +22,34 @@ export default function NavbarTop({token , setToken , setName , name , config , 
   const checkToken = ()=> {
       if (token) {
           return <>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>HOME</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>Home</Button> </Nav.Link>
 
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>HOUSES</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>Houses</Button> </Nav.Link>
 
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}>BOOKING</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}>Booking</Button> </Nav.Link>
 
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/fav")}}>FAV</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/fav")}}>Fav</Button> </Nav.Link>
+
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push('/addhouse')}}>Add House</Button> </Nav.Link>
+
+                {role === 0 ?  
+                 
+                <Nav.Link> <Menu> 
+                    <MenuButton as={Button} colorScheme='pink'>
+                        Dashboard
+                    </MenuButton> 
+                    <MenuList>
+                        <MenuGroup fontSize={"15px"} color={"black"} >
+                                <MenuItem onClick={()=>{hestory.push("/details")}} color={"black"}>Details</MenuItem>
+                                <MenuItem onClick={()=>{hestory.push("/houseslist")}} color={"black"}>Houses</MenuItem>
+                                <MenuItem onClick={()=>{hestory.push("/memberslist")}} color={"black"}>Members</MenuItem>
+                                <MenuItem onClick={()=>{hestory.push("/reportslist")}} color={"black"}>Reports</MenuItem>
+                                <MenuItem onClick={()=>{hestory.push("/requestslist")}} color={"black"}>Requests</MenuItem>
+                            </MenuGroup>
+                        </MenuList>
+                    </Menu>
+                </Nav.Link>  : ""}
+
 
                     <Nav.Link> <Menu>
                         <MenuButton as={Button} colorScheme='pink'>
@@ -36,9 +58,9 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                         <MenuList>
                             <MenuGroup fontSize={"15px"} color={"black"} title={`Login : ${name}`} >
                                 <MenuItem color={"black"}>Setting</MenuItem>
-                                <MenuItem color={"black"}>Profile</MenuItem>
-                                {role === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""}
-                                {role === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""}
+                                <MenuItem onClick={()=>{hestory.push("/my-profile")}} color={"black"}>My Profile</MenuItem>
+                                {/* {role === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""} */}
+                                {/* {role === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""} */}
                             </MenuGroup>
                          <MenuDivider />
                          <MenuItem onClick={()=>{logout()}} color={"red"}>Logout</MenuItem>
@@ -49,9 +71,9 @@ export default function NavbarTop({token , setToken , setName , name , config , 
           </>
       }else{
           return <>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>HOME</Button> </Nav.Link>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>HOUSES</Button> </Nav.Link>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/login")}}>LOGIN</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>Home</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>House</Button> </Nav.Link>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/login")}}>Login</Button> </Nav.Link>
                 <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/signup")}}>Create Account</Button> </Nav.Link>
           </>
       }

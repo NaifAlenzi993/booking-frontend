@@ -4,7 +4,7 @@ import axios from "axios";
 
 import "../styles/houseSelect.css"
 
-export default function HouseSelect({token , userId}) {
+export default function HouseSelect({token , userId , serverUrl}) {
     const [house, setHouse] = useState({})
     const [startDate, setStartDate] = useState("")
     const [expDate, setExpDate] = useState("")
@@ -13,7 +13,7 @@ export default function HouseSelect({token , userId}) {
     const { id } = useParams()
 
     useEffect(() => {
-        axios.get("http://localhost:5000/house/" + id , 
+        axios.get(serverUrl+"/house/" + id , 
         {headers: { authorization: `Bearer ${token}` }})
         .then(res => {
             setHouse(res.data[0]);
@@ -23,7 +23,7 @@ export default function HouseSelect({token , userId}) {
     }, [token])
 
     const addBooking = () => {
-        axios.post("http://localhost:5000/booking/" , 
+        axios.post(serverUrl+"/booking/" , 
         {
             startDate: startDate,
             expiryDate: expDate ,
@@ -65,7 +65,6 @@ export default function HouseSelect({token , userId}) {
         return diffInDays;
     }
 
-   
 
     return (
         <div>
@@ -111,7 +110,6 @@ export default function HouseSelect({token , userId}) {
                 </div> 
 
             </div>
-               
         </div>
     )
 }

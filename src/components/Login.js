@@ -5,7 +5,7 @@ import { FaKey , FaAt  } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function Login({setToken , token , setUserId , setName , setRole}) {
+export default function Login({setToken , token , setUserId , setName , setRole , serverUrl}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -31,7 +31,7 @@ export default function Login({setToken , token , setUserId , setName , setRole}
               return
         }
         try {
-            const response = await axios.post("http://localhost:5000/login" , 
+            const response = await axios.post(serverUrl+"/login" , 
         {
                 email : email , 
                 password : password

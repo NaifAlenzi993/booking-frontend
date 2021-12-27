@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
 
-export default function Signup() {
+export default function Signup({serverUrl}) {
     const [inputUsername, setInputUsername] = useState("")
     const [inputEmail, setInputEmail] = useState("")
     const [inputPassword, setInputPassword] = useState("")
@@ -27,7 +27,7 @@ export default function Signup() {
               return
         }
         try {
-            const response = await axios.post("http://localhost:5000/signUp" , {
+            const response = await axios.post(serverUrl+"/signUp" , {
                 name: inputUsername ,
                 email: inputEmail ,
                 password: inputPassword
