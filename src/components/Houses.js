@@ -6,19 +6,21 @@ import { Spinner , Box  , Image , Center ,Flex , Modal ,
     ModalFooter,
     ModalBody,
     ModalCloseButton} from "@chakra-ui/react";
-import { FaStar , FaHeart , FaRegEye } from "react-icons/fa";
+import { FaStar , FaHeart , FaRegEye , FaWindowClose } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "../style.css"
 import style from '../styles/Houses.module.css'
 
-export default function Houses({token , serverUrl}) {
+export default function Houses({token , serverUrl , role , userId}) {
 
     const [houses, setHouses] = useState([])
     const [fav, setFav] = useState([])
     const [toggleSpiinner, setToggleSpiinner] = useState(false)
 
     const history = useHistory()
+
+    
 
     useEffect(() => {
         setToggleSpiinner(true)
@@ -36,6 +38,9 @@ export default function Houses({token , serverUrl}) {
         })
         .catch(err => console.log(err))
     }, [token])
+
+
+    
 
 
 
@@ -71,8 +76,17 @@ export default function Houses({token , serverUrl}) {
             
         }
     }
-    
 
+    const deleteHouse = (id)=>{
+        axios.delete(serverUrl + "/house/" + id , 
+        {headers: { authorization: `Bearer ${token}` }})
+        .then(res => setHouses(res.data))
+        .catch(err => console.log(err))
+
+        
+    }
+
+    
     const renderHouses = ()=> {
         return (
             houses.map((elem,i) => {
@@ -81,6 +95,13 @@ export default function Houses({token , serverUrl}) {
                         <Image onClick={()=>{showHouseById(elem._id)}} id="img-responsive" src={elem.img} alt=""/>
                         <span style={{fontSize : "19px"}}>{elem.name}</span>
                         {heartFav(elem._id)} 
+                        {
+                            role === 0 || userId === elem.user._id && token !== ""  ?
+                            <FaWindowClose id="deleteHouse"  onClick={()=>{deleteHouse(elem._id)}}/>
+                            :
+                            ""
+                        }
+                        
                     </div>
 
                     <div id="info-house">
@@ -89,12 +110,14 @@ export default function Houses({token , serverUrl}) {
                             {elem.beds} beds. {elem.baths} baths   
                         </p>
 
-                        <div id="viewDiv">
-                        {<FaRegEye/>} <span style={{fontSize : "15px"}}>{elem.views}</span> 
-                        </div>
+                        <Box id="viewDiv" width={"50px"}>
+                        {<FaRegEye/>} <span style={{fontSize : "15px"}}>{" " + elem.views}</span> 
+                        </Box>
                     </div>
 
                     <span className={style.pricehouse}>{elem.price} S.R</span>
+
+
                         
                     <div id="stars-rate">
                     {Array(5)
@@ -112,16 +135,23 @@ export default function Houses({token , serverUrl}) {
         )
     }
 
+    const spiinner = () => {
+        return (
+            <> 
+            <Flex justifyContent={"center"} alignItems={"center"}>
+            <Center mt="3rem" display={"flex"} justifyContent={"center"}>
+            <Spinner width="10rem" height="10rem" margin={"auto"}/>
+            </Center>
+            </Flex>
+            </>
+        )
+    }
+
     return (
         <div>
         {toggleSpiinner ? 
-       
-         <Flex justifyContent={"center"} alignItems={"center"}>
-         <Center mt="3rem" display={"flex"} justifyContent={"center"}>
-             <Spinner width="10rem" height="10rem" margin={"auto"}/>
-         </Center>
-         </Flex>
-         :
+            spiinner()
+        :
         <div id = "container-houses">
             {renderHouses()}  
         </div>

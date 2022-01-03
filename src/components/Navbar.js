@@ -2,8 +2,8 @@ import React , {useState , useEffect} from "react";
 import {Navbar , Nav  } from 'react-bootstrap'
 import {  Button  , Tooltip  , MenuGroup, MenuItem , MenuList , Menu , MenuButton , MenuDivider ,useColorMode} from "@chakra-ui/react";
 import { useHistory } from 'react-router-dom';
-import { FaRegMoon } from 'react-icons/fa';
-import axios from "axios";
+import { FaRegMoon , FaUserPlus , FaSignInAlt , FaHome ,FaRegCalendarCheck ,FaHotel , FaClinicMedical , FaSignOutAlt , FaHeart} from 'react-icons/fa';
+
 
 
 
@@ -17,23 +17,30 @@ export default function NavbarTop({token , setToken , setName , name , config , 
       setToken("")
        localStorage.setItem("token" , JSON.stringify(""))
       setName("")
+      hestory.push("/")
   }
 
   const checkToken = ()=> {
       if (token) {
           return <>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>Home</Button> </Nav.Link>
+                <Tooltip hasArrow label='Go Page Home' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}><FaHome/></Button> </Nav.Link>
+                </Tooltip>
 
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>Houses</Button> </Nav.Link>
-
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}>Booking</Button> </Nav.Link>
-
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/fav")}}>Fav</Button> </Nav.Link>
-
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push('/addhouse')}}>Add House</Button> </Nav.Link>
+                <Tooltip hasArrow label='Go Page Hotels' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}><FaHotel/></Button> </Nav.Link>
+                </Tooltip>
+                
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/booking")}}><FaRegCalendarCheck/></Button> </Nav.Link>
+                
+                <Tooltip hasArrow label='Your Favorite List' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/fav")}}><FaHeart/></Button> </Nav.Link>
+                </Tooltip>
+                <Tooltip hasArrow label='Add Your Hotel' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push('/addhouse')}}><FaClinicMedical></FaClinicMedical></Button> </Nav.Link>
+                </Tooltip>
 
                 {role === 0 ?  
-                 
                 <Nav.Link> <Menu> 
                     <MenuButton as={Button} colorScheme='pink'>
                         Dashboard
@@ -49,8 +56,6 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                         </MenuList>
                     </Menu>
                 </Nav.Link>  : ""}
-
-
                     <Nav.Link> <Menu>
                         <MenuButton as={Button} colorScheme='pink'>
                             My Account
@@ -59,30 +64,39 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                             <MenuGroup fontSize={"15px"} color={"black"} title={`Login : ${name}`} >
                                 <MenuItem color={"black"}>Setting</MenuItem>
                                 <MenuItem onClick={()=>{hestory.push("/my-profile")}} color={"black"}>My Profile</MenuItem>
-                                {/* {role === 0 ? <MenuItem color={"black"}>AdminTools</MenuItem> : ""} */}
-                                {/* {role === 0 ? <MenuItem onClick={()=>{hestory.push('/addhouse')}} color={"black"}>Add Houses</MenuItem> : ""} */}
+
                             </MenuGroup>
-                         <MenuDivider />
-                         <MenuItem onClick={()=>{logout()}} color={"red"}>Logout</MenuItem>
-                         </MenuList>
+                        <MenuDivider />
+                        <MenuItem onClick={()=>{logout()}} color={"red"}>Logout</MenuItem>
+                        </MenuList>
                         </Menu>
                     </Nav.Link>
-
-          </>
-      }else{
-          return <>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}>Home</Button> </Nav.Link>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}>House</Button> </Nav.Link>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/login")}}>Login</Button> </Nav.Link>
-                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/signup")}}>Create Account</Button> </Nav.Link>
+            </>
+        }else{
+            return <>
+               <Tooltip hasArrow label='Go Page Home' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/")}}><FaHome/></Button> </Nav.Link>
+                </Tooltip>
+                <Tooltip hasArrow label='Go Page Hotels' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/houses")}}><FaHotel/></Button> </Nav.Link>
+                </Tooltip>
+                <Tooltip hasArrow label='Login' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/login")}}><FaSignInAlt/></Button> </Nav.Link>
+                </Tooltip>
+                
+                <Tooltip hasArrow label='Create New Account' bg='red.600'>
+                <Nav.Link> <Button colorScheme="red" onClick={()=>{hestory.push("/signup")}}>{<FaUserPlus/>}</Button> </Nav.Link>
+                </Tooltip>
           </>
       }
   }
+  
+
 
 
   return (
    
-           <Navbar className="p-3" collapseOnSelect style={{background : "#080808"}} variant = "dark"
+           <Navbar className="p-2" collapseOnSelect style={{background : "#080808"}} variant = "dark"
                    sticky="top" expand = "lg" >
                     
                     <Navbar.Brand > 

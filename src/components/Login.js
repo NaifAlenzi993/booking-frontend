@@ -69,9 +69,7 @@ export default function Login({setToken , token , setUserId , setName , setRole 
 
     }
     return (
-        
         <Flex marginTop={"50px"} padding={"20px"}   >
-            
             <Center flexDirection="column" margin={"auto"} >
             <Text fontSize={"23"}>Login Account : </Text>
             <InputGroup marginTop={"5px"}>

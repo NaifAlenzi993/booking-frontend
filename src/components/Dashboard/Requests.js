@@ -14,15 +14,11 @@ export default function Requests({serverUrl , token}) {
 
     const accapte =  (id) => {
         axios.post(serverUrl + "/request/" , 
-        {id : id}
-        ,
+        {id : id},
         {headers: { authorization: `Bearer ${token}` }})
         .then(res => setRequests(res.data))
         .catch(err => console.log(err))
-
     }
-
-  
 
     const reject =  (id) => {
         axios.delete(serverUrl + "/request/" + id ,
@@ -36,7 +32,7 @@ export default function Requests({serverUrl , token}) {
             <Center>
             <Box id='resuestList' className='container' width={"60%"}>
                 <Flex flexDirection={"column"}>
-                {requests.map((elem , i)=> {
+                {requests && requests.map((elem , i)=> {
                     return <Box boxShadow={"0px 0px 10px black;"}>
                         <img src={elem.img} alt="" width={"100"}/>
                         <div>Name House : {elem.name}</div>

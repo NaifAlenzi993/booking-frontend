@@ -22,6 +22,7 @@ import Reports from "./components/Dashboard/Reports";
 import Requests from "./components/Dashboard/Requests";
 
 import Profile from "./components/Profile";
+import UserInfo from "./components/UserInfo";
 
 function App() {
   const [serverUrl, setServerUrl] = useState("http://localhost:5000")
@@ -72,7 +73,7 @@ render={() => {
 exact
 path="/details"
 render={() => {
-  return <Details token={token} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
+  return <Details token={token} userId={userId} serverUrl={serverUrl}/>;
 }}
 />
 
@@ -80,7 +81,7 @@ render={() => {
 exact
 path="/houseslist"
 render={() => {
-  return <HousesList token={token} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
+  return <HousesList token={token} userId={userId} serverUrl={serverUrl}/>;
 }}
 />
 
@@ -88,7 +89,15 @@ render={() => {
 exact
 path="/requestslist"
 render={() => {
-  return <Requests token={token} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
+  return <Requests token={token} userId={userId} serverUrl={serverUrl}/>;
+}}
+/>
+
+<Route
+exact
+path="/reportslist"
+render={() => {
+  return <Reports token={token} userId={userId} serverUrl={serverUrl}/>;
 }}
 />
 </>
@@ -111,6 +120,14 @@ render={() => {
       />
 
       { token ? <>
+
+        <Route
+        exact
+        path="/user/:id"
+        render={() => {
+          return <UserInfo token={token} userId={userId} serverUrl={serverUrl}/>;
+        }}
+        />
 
         <Route
         exact
@@ -177,7 +194,7 @@ render={() => {
         exact
         path="/houses"
         render={() => {
-          return <Houses token={token} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
+          return <Houses token={token} setToken={setToken} userId={userId} serverUrl={serverUrl} role={role} />;
         }}
       />
 

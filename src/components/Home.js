@@ -4,9 +4,7 @@ import { Button, ButtonGroup , Stack , Box , InputGroup ,Input  , InputLeftEleme
 export default function Home() {
   return (
     <Center>
-    <Flex>
-        
-
+    <Flex>  
         <InputGroup marginTop={"5px"}>
             <InputLeftElement
             pointerEvents='none'

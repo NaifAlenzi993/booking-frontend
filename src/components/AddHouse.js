@@ -70,7 +70,8 @@ export default function AddHouse({token}) {
             <Center width={"100%"}>{msgWarining && <Alert status='success'>
             <AlertIcon />
             {msgWarining}
-             </Alert>}</Center>
+             </Alert>}
+             </Center>
 
             
         

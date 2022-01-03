@@ -3,6 +3,8 @@
     margin: auto;
     display: grid;
     grid-template-columns: 400px auto;
+
+    
 }
 
 .containerHouseSelect *{
@@ -19,6 +21,7 @@
     display: grid;
     grid-template-columns: auto ;
     padding: 10px;
+    box-shadow: 0px 0px 10px black;
 }
 
 #gridinfo39824{
@@ -38,7 +41,7 @@
     margin: auto;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    box-shadow: 0px 0px 10px black;
     padding: 30px;
 }
 
@@ -64,3 +67,15 @@
     border: 1px solid black;
     border-radius: 10px;
 }
+
+@media screen and (max-width: 1200px) {
+
+    .containerHouseSelect{
+        width: 85%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: auto;
+        grid-auto-flow: dense;
+    }
+    
+  }
