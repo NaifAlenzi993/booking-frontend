@@ -5,7 +5,7 @@ import { FaKey , FaAt  } from 'react-icons/fa';
 import axios from "axios";
 
 
-export default function Login({setToken , token , setUserId , setName , setRole , serverUrl}) {
+export default function Login({setToken , token , setUserId , setName , setRole , serverUrl , setUsersBlock}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -27,8 +27,8 @@ export default function Login({setToken , token , setUserId , setName , setRole 
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-              })
-              return
+            })
+            return
         }
         try {
             const response = await axios.post(serverUrl+"/login" , 
@@ -36,10 +36,20 @@ export default function Login({setToken , token , setUserId , setName , setRole 
                 email : email , 
                 password : password
         })
+
+            // axios.get(serverUrl + "/block" , 
+            // {headers: { authorization: `Bearer ${token}` }})
+            // .then(res => {
+            //   setUsersBlock(res.data);
+            // })
+            // .catch(err => console.log(err))
+        
             setToken(response.data.token)
             setUserId(response.data.userId)
             setName(response.data.username)
             setRole(response.data.role)
+
+            
 
             localStorage.setItem("token",JSON.stringify(response.data.token))
             localStorage.setItem("userId",JSON.stringify(response.data.userId))

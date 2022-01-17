@@ -4,6 +4,8 @@ import {  Button  , Tooltip  , MenuGroup, MenuItem , MenuList , Menu , MenuButto
 import { useHistory } from 'react-router-dom';
 import { FaRegMoon , FaUserPlus , FaSignInAlt , FaHome ,FaRegCalendarCheck ,FaHotel , FaClinicMedical , FaSignOutAlt , FaHeart} from 'react-icons/fa';
 
+import "../style.css"
+
 
 
 
@@ -47,7 +49,7 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                     </MenuButton> 
                     <MenuList>
                         <MenuGroup fontSize={"15px"} color={"black"} >
-                                <MenuItem onClick={()=>{hestory.push("/details")}} color={"black"}>Details</MenuItem>
+                                {/* <MenuItem onClick={()=>{hestory.push("/details")}} color={"black"}>Details</MenuItem> */}
                                 <MenuItem onClick={()=>{hestory.push("/houseslist")}} color={"black"}>Houses</MenuItem>
                                 <MenuItem onClick={()=>{hestory.push("/memberslist")}} color={"black"}>Members</MenuItem>
                                 <MenuItem onClick={()=>{hestory.push("/reportslist")}} color={"black"}>Reports</MenuItem>
@@ -96,12 +98,12 @@ export default function NavbarTop({token , setToken , setName , name , config , 
 
   return (
    
-           <Navbar className="p-2" collapseOnSelect style={{background : "#080808"}} variant = "dark"
+           <Navbar className="p-3" collapseOnSelect style={{background : "#080808"}} variant = "dark"
                    sticky="top" expand = "lg" >
-                    
+                   
                     <Navbar.Brand > 
                         {/* <img src={logo} width="40" height={"40"}/> */}
-                        <span className='ml-2'>Booking App</span> 
+                        <h1 id="logo" >Booking App</h1> 
                     </Navbar.Brand>
                       
                     <Navbar.Toggle/>
@@ -109,10 +111,6 @@ export default function NavbarTop({token , setToken , setName , name , config , 
                     <Nav>
                     <Nav.Link> 
 
-                  
-                        
-                    
-                        
                     </Nav.Link>
                     {checkToken()}
                     </Nav>

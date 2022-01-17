@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React , {useEffect , useState} from 'react'
-import { Spinner , Box  , Image , Center ,Flex , Modal ,
+import { Spinner , Box  , Image , Center ,Flex , Modal , Text,
     ModalOverlay,
     ModalContent,
     ModalHeader,
@@ -27,11 +27,13 @@ export default function Profile({token , serverUrl}) {
             <Center>
             <Box id='profile-info' maxW='sm' borderWidth='1.5px' borderRadius='lg' overflow='hidden'>
                 <div ><img id='img-profile' src={myProfile.img} alt="" /></div>
-                <div>ID : {myProfile._id}</div> 
-                <div>UserName : {myProfile.name}</div> 
-                <div>Email : {myProfile.email}</div>
-                <div>Role : {myProfile.role == 0 ? "Admin" : "User"}</div>
-                <div>Date Create : {myProfile.dateCreateAcc}</div> 
+                <Box fontSize={"17px"}>
+                    <Text>ID : {myProfile._id}</Text> 
+                    <Text>UserName : {myProfile.name}</Text> 
+                    <Text>Email : {myProfile.email}</Text>
+                    <Text>Role : {myProfile.role == 0 ? "Admin" : "User"}</Text>
+                    <Text>Date Create : {myProfile.dateCreateAcc}</Text> 
+                </Box>
             </Box>
             </Center>
 

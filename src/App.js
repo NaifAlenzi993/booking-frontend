@@ -9,7 +9,7 @@ import HouseSelect from "./components/HouseSelect"
 import Booking from "./components/Booking";
 import Fav from "./components/Fav";
 import "bootstrap/dist/css/bootstrap.css"
-import { ChakraProvider , extendTheme } from "@chakra-ui/react";
+import { ChakraProvider , extendTheme , Text , Flex} from "@chakra-ui/react";
 
 import "./style.css"
 
@@ -23,6 +23,7 @@ import Requests from "./components/Dashboard/Requests";
 
 import Profile from "./components/Profile";
 import UserInfo from "./components/UserInfo";
+import axios from "axios";
 
 function App() {
   const [serverUrl, setServerUrl] = useState("http://localhost:5000")
@@ -30,6 +31,10 @@ function App() {
   const [userId, setUserId] = useState("")
   const [name , setName] = useState("")
   const [role, setRole] = useState(2)
+  const [usersBlock, setUsersBlock] = useState([])
+
+  const [showPage, setShowPage] = useState(true)
+
 
   useEffect(() => { 
     if (!token) {
@@ -42,17 +47,45 @@ function App() {
         setName(username)
         setRole(userRole)
     }
+
+    
 }, [])
 
+  // useEffect(() => {
+  //   axios.get(serverUrl + "/block" , 
+  //   {headers: { authorization: `Bearer ${token}` }})
+  //   .then(res => {
+  //     setUsersBlock(res.data);
+  //   })
+  //   .catch(err => console.log(err))
 
-const [config, setConfig] = useState({initialColorMode: 'dark',
-useSystemColorMode: false})
+  //   checkIsUserBlock()
+  // }, [token])
 
+
+const [config, setConfig] = useState({initialColorMode: 'dark',useSystemColorMode: false})
+
+  // const checkIsUserBlock = ()=> {
+  //   if (!userId) {
+  //     setUserId(JSON.parse(localStorage.getItem("userId")))
+  //   }
+  //   usersBlock.forEach((elem , i) => {
+  //       if (userId === elem.user){
+  //         setShowPage(true)
+  //       }else{
+  //         setShowPage(false)
+  //       }
+  //   })
+  // }
 
 // const [theme2, setTheme2] = useState(extendTheme({ config }))
 
   return (
     <ChakraProvider theme={extendTheme({ config })}>
+
+      {
+      showPage ? 
+      <>
       
       <NavbarTop token={token} setToken={setToken} userId={userId} setName={setName} config={config} setConfig={setConfig} name={name} role={role} />
       
@@ -161,7 +194,7 @@ render={() => {
         exact
         path="/house/:id"
         render={() => {
-          return <HouseSelect token={token} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
+          return <HouseSelect token={token} role={role} setToken={setToken} userId={userId} serverUrl={serverUrl}/>;
         }}
       />
 
@@ -198,6 +231,7 @@ render={() => {
         }}
       />
 
+
       {/* ======= Login & SignUp ====== */}
 
       <Route
@@ -211,6 +245,8 @@ render={() => {
             setUserId={setUserId}
             setRole={setRole} 
             serverUrl={serverUrl}
+            showPage={showPage}
+            setUsersBlock={setUsersBlock}
           />
         )}
       />
@@ -219,6 +255,24 @@ render={() => {
         path="/signup"
         render={() => <Signup token={token} setToken={setToken} serverUrl={serverUrl}/>}
       />
+      </>
+      :
+      <Flex
+      justifyContent={"center"}
+      alignItems={"center"}
+      w={"500px"}
+      border={"1px solid red"}
+      boxShadow={"0px 0px 10px black"}
+      margin={"auto"}
+      marginTop={"40px"}
+      >
+            <Text
+            fontSize={"30px"}
+            >Your account has been banned
+            </Text>
+      </Flex>
+     
+      }
     </ChakraProvider>
   );
 }

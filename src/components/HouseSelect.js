@@ -1,8 +1,8 @@
 import React , {useState , useEffect} from "react";
-import { useHistory , useParams } from "react-router-dom";
+import { useHistory , useParams , Link} from "react-router-dom";
 import axios from "axios";
 import { Container , Input , Text , InputLeftAddon , useToast ,FormControl , InputGroup , InputLeftElement , Button , Select , Center , Flex , Box  , FormLabel , Slider , Alert , AlertIcon, AlertTitle , Tabs , TabList , Tab , TabPanels , TabPanel, Textarea,
-    SliderTrack, AlertDescription, CloseButton,
+    SliderTrack, AlertDescription, CloseButton,useDisclosure,ScaleFade ,SlideFade,
     SliderFilledTrack,Avatar, Tag,
     SliderThumb, WrapItem,Divider,
     HStack , Img , Tooltip} from "@chakra-ui/react";
@@ -12,19 +12,26 @@ import { FaStar , FaRegCommentAlt , FaHotel , FaRegCalendarCheck } from "react-i
 
 import "../styles/houseSelect.css"
 
-export default function HouseSelect({token , userId , serverUrl}) {
-    const  today = new Date();
+export default function HouseSelect({token , userId , serverUrl , role}) {
+    const today = new Date()
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     
+    let todayA = new Date().toISOString().slice(0, 10)
+    todayA = todayA.split("-")
+    todayA = todayA[0] + "-" + todayA[1] + "-" + todayA[2]
+    console.log(todayA);
+
     const [house, setHouse] = useState({})
-    const [startDate, setStartDate] = useState("2022-01-01")
-    const [expDate, setExpDate] = useState("2022-01-01")
+    const [startDate, setStartDate] = useState(`${todayA}`)
+    const [expDate, setExpDate] = useState(`${todayA}`)
     const [priceTotal, setPriceTotal] = useState(0)
     const [serviceFee, setServiceFee] = useState(0)
     const [commentText, setCommentText] = useState("")
     const [commentsArr, setCommentsArr] = useState([])
     const { id } = useParams()
 
+    const history = useHistory()
+    
     
     const [toggleRating, setToggleRating] = useState(false)
     const [toggleComment, setToggleComment] = useState(false)
@@ -32,7 +39,6 @@ export default function HouseSelect({token , userId , serverUrl}) {
     const [reatingChange, setReatingChange] = useState(false)
 
     const [commentIsDisabled, setCommentIsDisabled] = useState(true)
-    const [valueBtnComment, setValueBtnComment] = useState("Add Comment")
     const [commentTimer, setCommentTimer] = useState(15)
 
     useEffect(() => {
@@ -98,7 +104,6 @@ export default function HouseSelect({token , userId , serverUrl}) {
             },2000)
             return
         }
-
         if (commentText.length < 3) {
             setToggleComment(true)
             setTimeout(()=>{
@@ -106,6 +111,9 @@ export default function HouseSelect({token , userId , serverUrl}) {
             },2000)
             return
         }
+       
+
+        
 
         axios.post(serverUrl+"/comment" , 
         {house : id , 
@@ -116,7 +124,10 @@ export default function HouseSelect({token , userId , serverUrl}) {
     {headers: { authorization: `Bearer ${token}` }})
     .then(res => {
         setCommentsArr(res.data)
-        setCommentIsDisabled(false)
+        if (role !== 0){
+            console.log(role);
+            setCommentIsDisabled(false)
+        }
     })
     .catch(err => console.log(err))
     }
@@ -147,7 +158,9 @@ export default function HouseSelect({token , userId , serverUrl}) {
     }
 
     const goProfile = (id)=>{
-        console.log(id);
+        // console.log(serverUrl +"/user/"+house.user._id);
+        // history.go("user/"+house.user._id)
+        history.push("user/"+house.user._id);
     }
 
     const hotels = () => {
@@ -170,10 +183,11 @@ export default function HouseSelect({token , userId , serverUrl}) {
                 my={"10px"}
                >
                            <span>Created By</span> 
-                            {house.user && <Box 
+                            {house.user && <Link to={"/user/"+house.user._id}>
+                            <Box 
                             w={"100px"}
                             display={"flex"} 
-                            onClick={()=>{goProfile(house.user._id)}}
+                            // onClick={()=>{goProfile(house.user._id)}}
                             justifyContent={"space-around"} 
                             border={"solid black 1px"}
                             alignItems={"center"}
@@ -191,7 +205,8 @@ export default function HouseSelect({token , userId , serverUrl}) {
                                 alt="" 
                                 w={"35px"} 
                                 h={"35px"}/>
-                            </Box>}
+                            </Box>
+                            </Link>}
                            </Flex>
             </Flex>
             
@@ -222,8 +237,12 @@ export default function HouseSelect({token , userId , serverUrl}) {
     const booking = () => {
         return (
           <>
-            <Flex justifyContent={"center"} flexDirection={"column"}>
+            <Flex 
+            justifyContent={"center"} 
+            flexDirection={"column"}
+            my={"5px"}>
               <Input
+              my={"5px"}
                 onChange={(e) => {
                   setStartDate(e.target.value);
                 }}
@@ -234,6 +253,7 @@ export default function HouseSelect({token , userId , serverUrl}) {
                 value={startDate}
               />
               <Input
+              my={"5px"}
                 onChange={(e) => {
                   setExpDate(e.target.value);
                 }}
@@ -242,14 +262,15 @@ export default function HouseSelect({token , userId , serverUrl}) {
                 id=""
                 value={expDate}
               />
-              <Divider />
-              <span>
+              <Divider my={"5px"} />
+              <Text my={"5px"}>
                 <b>Service fee 8% : </b> {serviceFee} S.R
-              </span>
-              <span>
+              </Text >
+              <Text my={"5px"}>
                 <b>Price Total :</b> {priceTotal} S.R
-              </span>
+              </Text>
               <Button
+              my={"5px"}
                 onClick={() => {
                   addBooking();
                 }}
@@ -261,6 +282,8 @@ export default function HouseSelect({token , userId , serverUrl}) {
           </>
         );
     }
+
+    const { isOpen, onToggle } = useDisclosure()
 
     const comments = ()=> {
         return <Flex flexDirection={"column"}>
@@ -274,6 +297,13 @@ export default function HouseSelect({token , userId , serverUrl}) {
                     >
                         {commentsArr.map((comment , i) => {
                         return (
+                        <SlideFade 
+                        offsetY='1400px'
+                        rounded='md'
+                        shadow='md'
+                        in={true}
+                        style={{width: "100%"}}
+                        >
                           <Flex
                             key={i}
                             w={"100%"}
@@ -292,14 +322,17 @@ export default function HouseSelect({token , userId , serverUrl}) {
                                 colorScheme={"orange"}
                                 borderRadius='full'
                                 margin={"5px"}>
-                                <Avatar
-                                    onClick={()=>{goProfile(comment.user._id)}}
+                                    <Link to={"/user/"+comment.user._id}>
+                                    <Avatar
+                                    // onClick={()=>{goProfile(comment.user._id)}}
                                     cursor={"pointer"}
                                     size="sm"
                                     name="Kent Dodds"
                                     margin={"5px"}
                                     src={comment.user.img}
-                                />{" "}
+                                    />{" "}
+                                    </Link>
+                                
                                 <Flex
                                   justifyContent={"space-between"}
                                   flexDirection={"column"}
@@ -352,6 +385,7 @@ export default function HouseSelect({token , userId , serverUrl}) {
                             </Flex>
                             
                           </Flex>
+                          </SlideFade>
                         );
                     })}
                     </Flex>
@@ -406,7 +440,10 @@ export default function HouseSelect({token , userId , serverUrl}) {
            }
             
             <Button
-            onClick={addComment} 
+            onClick={()=>{
+                addComment();
+                onToggle();
+            }} 
             colorScheme = {"facebook"}
             boxShadow={"0px 0px 5px blue"} 
             mt={"10px"}

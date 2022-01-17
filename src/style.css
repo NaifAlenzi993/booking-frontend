@@ -91,6 +91,27 @@ cursor: pointer;
     color: red;
 }
 
+:root {
+    --opacity: .75;
+    --blue: rgb(0, 191, 255, var(--opacity));
+    --pink: rgb(255, 20, 147);
+    --yellow: rgb(255, 255, 0);
+    --black: black;
+    
+}
+
+
+#logo {
+    font-family: 'Kumbh Sans', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    text-shadow: 
+    3px 0 var(--pink),
+    -2px 0 var(--blue),
+    -2px 0 var(--yellow);
+    margin: 0;
+}
+
 
 
 @media screen and (max-width: 1200px) {
@@ -103,4 +124,4 @@ cursor: pointer;
         align-items:center;
         margin-top: 10px;
     }
-  }
+}
