@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from "react";
-import { Spinner , Box  , Image , Center ,Flex , Modal ,Grid ,
+import { Spinner , Box  , Image , Center ,Flex , Modal ,Grid ,Text,
     ModalOverlay,
     ModalContent,
     ModalHeader,
@@ -46,10 +46,6 @@ export default function Houses({token , serverUrl , role , userId}) {
         })
         .catch(err => console.log(err))
     }, [token])
-
-
-    
-
 
 
     const addToFav =  (id) => {
@@ -125,7 +121,7 @@ export default function Houses({token , serverUrl , role , userId}) {
                 >
                     <div id="img-house">
                         <Image onClick={()=>{showHouseById(elem._id)}} id="img-responsive" src={elem.img} alt=""/>
-                        <span style={{fontSize : "19px"}}>{elem.name}</span>
+                        <Text fontSize={{lg : "18px" , md: "16px" , sm: "13px"}}>{elem.name}</Text>
                         {heartFav(elem._id)} 
                         {
                             role === 0 || userId === elem.user._id && token !== ""  ?
@@ -208,11 +204,13 @@ export default function Houses({token , serverUrl , role , userId}) {
           ) : (
             <Grid  
             templateColumns={
-                {lg : 'repeat(3, 320px)' , md : 'repeat(2, 320px)' ,sm :'repeat(1, 200px)' }
+                {lg : 'repeat(3, 450px)' , md : 'repeat(2, 320px)' ,sm :'repeat(1, 200px)' }
             }
             gap={2}
             m={"5px"}
             margin={"auto"}
+            p={"3px"}
+            
             >
                 {renderHouses()}
             </Grid >

@@ -71,6 +71,7 @@ export default function Signup({serverUrl}) {
                    
             
            } catch (error) {
+               console.log(error.response.data);
             toast({
                 title: 'Error',
                 description: "Email is already registered",

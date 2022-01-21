@@ -19,7 +19,7 @@ export default function HouseSelect({token , userId , serverUrl , role}) {
     let todayA = new Date().toISOString().slice(0, 10)
     todayA = todayA.split("-")
     todayA = todayA[0] + "-" + todayA[1] + "-" + todayA[2]
-    console.log(todayA);
+   
 
     const [house, setHouse] = useState({})
     const [startDate, setStartDate] = useState(`${todayA}`)
@@ -64,8 +64,9 @@ export default function HouseSelect({token , userId , serverUrl , role}) {
         axios.get(serverUrl+"/house/" + id , 
         {headers: { authorization: `Bearer ${token}` }})
         .then(res => {
+          console.log(res.data);
             setHouse(res.data[0]);
-            console.log(res.data);
+            // console.log(res.data);
         })
         .catch(err => console.log(err))
 
@@ -74,8 +75,7 @@ export default function HouseSelect({token , userId , serverUrl , role}) {
         .then(res => {
             setCommentsArr(res.data)
         })
-        .catch(err => console.log(err))
-        
+        .catch(err => console.log(err)) 
     }, [token])
 
     const addBooking = () => {

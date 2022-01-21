@@ -7,7 +7,7 @@ SliderThumb,} from "@chakra-ui/react";
 import axios from "axios";
 import "../style.css"
 
-export default function AddHouse({token}) {
+export default function AddHouse({token , serverUrl}) {
     const [inputName, setInputName] = useState("")
     const [price, setPrice] = useState("100")
     const [inputCity, setInputCity] = useState("")
