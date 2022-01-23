@@ -16,11 +16,11 @@ export default function NavbarTop({token , setToken , setName , name , config , 
     const { colorMode, toggleColorMode } = useColorMode()
 
     const logout = ()=>{
-      setToken("")
-       localStorage.setItem("token" , JSON.stringify(""))
-      setName("")
-      hestory.push("/")
-  }
+        setToken("")
+        localStorage.setItem("token" , JSON.stringify(""))
+        setName("")
+        hestory.push("/")
+    }
 
   const checkToken = ()=> {
       if (token) {
@@ -117,7 +117,7 @@ export default function NavbarTop({token , setToken , setName , name , config , 
 
                     </Navbar.Collapse>
                         {/* {checkToken()} */}
-                    <FaRegMoon fontSize={"25px"} onClick={()=>{toggleColorMode()}}></FaRegMoon>
+                    <FaRegMoon fontSize={"30px"} color="white" onClick={()=>{toggleColorMode()}}></FaRegMoon>
                 </Navbar>
          
       

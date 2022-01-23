@@ -8,11 +8,19 @@ import { Spinner , Box  , Image , Center ,Flex , Modal ,Grid ,Text,
     ModalCloseButton , 
     InputLeftElement,
     InputGroup,
-
+    IconButton,
+    FormControl,
+    FormLabel,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
     Input,
+    Button,
     } from "@chakra-ui/react";
     
-import { FaStar , FaHeart , FaRegEye , FaWindowClose ,FaSistrix } from "react-icons/fa";
+import { FaStar , FaHeart , FaRegEye , FaWindowClose ,FaSistrix , FaEdit} from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "../style.css"
@@ -24,9 +32,16 @@ export default function Houses({token , serverUrl , role , userId}) {
     const [buckup, setBuckup] = useState([])
     const [fav, setFav] = useState([])
     const [toggleSpiinner, setToggleSpiinner] = useState(false)
-    const [search, setSearch] = useState("")
+    // const [search, setSearch] = useState("")
 
     const history = useHistory()
+
+    const [pageToggle, setPageToggle] = useState(false)
+    const [selectId, setSelectId] = useState("")
+
+    const [priceInput , setPriceInput] = useState("")
+
+    
 
     
 
@@ -101,6 +116,37 @@ export default function Houses({token , serverUrl , role , userId}) {
         .catch(err => console.log(err))
     }
 
+
+    const toPageChange = async (i) => {
+
+        setSelectId(houses[i])
+        console.log(selectId);
+        setPageToggle(true)
+
+    }
+
+    const saveAndbackToHouses = () => {
+        setToggleSpiinner(true)
+        axios.put(serverUrl + "/house/" , 
+        {idold : selectId._id , 
+        name : selectId.name , 
+        description: selectId.description , 
+        price : selectId.price,
+        img : selectId.img}
+        ,
+        {headers: { authorization: `Bearer ${token}` }})
+        .then(res => {
+            setHouses(res.data)
+            setToggleSpiinner(false)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        setSelectId("")
+        setPageToggle(false)
+
+    }
     
     const renderHouses = ()=> {
         return (
@@ -119,13 +165,18 @@ export default function Houses({token , serverUrl , role , userId}) {
                 w={[280 , 200 , 330]}
                 margin={"auto"}
                 >
+
                     <div id="img-house">
                         <Image onClick={()=>{showHouseById(elem._id)}} id="img-responsive" src={elem.img} alt=""/>
                         <Text fontSize={{lg : "18px" , md: "16px" , sm: "13px"}}>{elem.name}</Text>
+                        
                         {heartFav(elem._id)} 
                         {
                             role === 0 || userId === elem.user._id && token !== ""  ?
+                            <>
                             <FaWindowClose id="deleteHouse"  onClick={()=>{deleteHouse(elem._id)}}/>
+                            <IconButton icon={<FaEdit />} onClick={()=>{toPageChange(i)}} />
+                            </>
                             :
                             ""
                         }
@@ -172,48 +223,75 @@ export default function Houses({token , serverUrl , role , userId}) {
         )
     }
 
-    return (
-      <Flex 
-        flexDirection={"column"}
-      >
-        <InputGroup
-            w={[250 , 400]}
-            margin={"auto"}
-            my={"20px"}>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<FaSistrix color="gray.300" />}
-          />
-          <Input
-            type="tel"
-            placeholder="Search Hotel"
-            onChange={(e) => {
-              searchHouse(e.target.value);
-            }}
-          />
-        </InputGroup>
+    const onChangeInfo = async (value , id) => {
+ 
+        setSelectId({...setSelectId , price : value , _id : id})
+  
+    }
 
-        <Box
-        w={"90%"}
-        m={"auto"}
-        display={"flex"}
-        justifyContent={"center"}
-        >
+    return (
+      <Flex flexDirection={"column"}>
+        {!pageToggle && (
+          <InputGroup w={[250, 400]} margin={"auto"} my={"20px"}>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<FaSistrix color="gray.300" />}
+            />
+            <Input
+              type="tel"
+              placeholder="Search Hotel"
+              onChange={(e) => {
+                searchHouse(e.target.value);
+              }}
+            />
+          </InputGroup>
+        )}
+
+        <Box w={"90%"} m={"auto"} display={"flex"} justifyContent={"center"}>
           {toggleSpiinner ? (
             spiinner()
           ) : (
-            <Grid  
-            templateColumns={
-                {lg : 'repeat(3, 450px)' , md : 'repeat(2, 320px)' ,sm :'repeat(1, 200px)' }
-            }
-            gap={2}
-            m={"5px"}
-            margin={"auto"}
-            p={"3px"}
-            
-            >
-                {renderHouses()}
-            </Grid >
+            <>
+              {pageToggle ? (
+                <Box
+                  display={"flex"}
+                  justifyContent={"center"}
+                  justifyItems={"center"}
+                  flexDirection={"column"}
+                  margin={"30"}
+                >
+                  <Text>Change Price : </Text>
+                  <Input 
+                  placeholder="Price" 
+                  onChange={(e)=>{onChangeInfo(e.target.value , selectId._id)}}
+                  value={selectId.price}
+                  marginBottom={5}
+                  ></Input>
+                  <Button
+                  colorScheme={"facebook"}
+                    onClick={() => {
+                      saveAndbackToHouses();
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              ) : (
+                <Grid
+                  templateColumns={{
+                    lg: "repeat(3, 450px)",
+                    md: "repeat(2, 320px)",
+                    sm: "repeat(1, 200px)",
+                  }}
+                  gap={2}
+                  m={"5px"}
+                  margin={"auto"}
+                  p={"3px"}
+                >
+                  {renderHouses()}
+                </Grid>
+              )}
+            </>
           )}
         </Box>
       </Flex>
